@@ -1,5 +1,4 @@
 // @flow
-import assert from 'assert';
 import fastGlob from 'fast-glob';
 import getStream from 'get-stream';
 import isobject from 'isobject';
@@ -12,25 +11,33 @@ type ReadPkgsOptions = {
   normalize?: boolean,
 };
 
-export default async function readPkgs(
+export default function readPkgs(
   patterns: string | Array<string>,
   options?: ReadPkgsOptions = {},
-) {
-  assert(
-    typeof patterns === 'string' ||
-      (Array.isArray(patterns) &&
-        patterns.every(pattern => typeof pattern === 'string')),
-    '"patterns" must be a string or an array of strings.',
-  );
-  assert(
-    isobject(options),
-    '"options" must be a ReadPkgsOptions object or undefined.',
-  );
+): Promise<Array<{directory: string, pkg: Object}>> {
+  if (
+    typeof patterns !== 'string' &&
+    !(
+      Array.isArray(patterns) &&
+      patterns.every(pattern => typeof pattern === 'string')
+    )
+  ) {
+    return Promise.reject(
+      new Error('"patterns" must be a string or an array of strings.'),
+    );
+  }
+  if (!isobject(options)) {
+    return Promise.reject(
+      new Error('"options" must be a ReadPkgsOptions object or undefined.'),
+    );
+  }
+
   const {cwd = process.cwd(), normalize = true} = options;
-  assert(
-    typeof normalize === 'boolean',
-    '"options.normalize" must be a boolean or undefined.',
-  );
+  if (typeof normalize !== 'boolean') {
+    return Promise.reject(
+      new Error('"options.normalize" must be a boolean or undefined.'),
+    );
+  }
   return getStream.array(
     fastGlob
       .stream(patterns, {
