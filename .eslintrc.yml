@@ -13,4 +13,9 @@ plugins:
   - flowtype
 
 rules:
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies:
+      - scripts/**
+      - __tests__/**
   no-underscore-dangle: 0
