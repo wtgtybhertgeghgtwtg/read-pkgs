@@ -15,16 +15,15 @@
   },
   "description": "Read `package.json` in directories that match a glob pattern.",
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-flow": "^7.0.0-beta.42",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-flow": "^7.0.0-beta.46",
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.0",
-    "assign-deep": "^0.4.7",
-    "babel-core": "^7.0.0-bridge.0",
+    "@wtg/scripts": "^1.1.2",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^23.0.0",
-    "builtin-modules": "^2.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
@@ -36,9 +35,7 @@
     "lint-staged": "^7.0.0",
     "normalize-package-data": "^2.4.0",
     "prettier": "1.13.5",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.58.0",
-    "rollup-plugin-babel": "^4.0.0-beta.4"
+    "rimraf": "^2.6.2"
   },
   "engines": {
     "node": ">=4"
@@ -56,9 +53,7 @@
     "url": "https://github.com/wtgtybhertgeghgtwtg/read-pkgs"
   },
   "scripts": {
-    "build": "yarn build:cjs && yarn build:es && echo \"// @flow\\nexport * from '../src';\" > dist/index.cjs.js.flow",
-    "build:cjs": "rollup --config scripts/rollup/config.cjs.js",
-    "build:es": "rollup --config scripts/rollup/config.es.js",
+    "build": "wtg build",
     "clean": "rimraf coverage dist",
     "lint": "flow && eslint . && prettier --l \"{__tests__,src}/**/*.js\"",
     "test": "yarn test:src && yarn build && yarn test:dist",
