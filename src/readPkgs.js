@@ -4,7 +4,7 @@ import getStream from 'get-stream';
 import isobject from 'isobject';
 import path from 'path';
 import readPkg from 'read-pkg';
-import through from 'through2';
+import {Transform} from 'stream';
 
 type ReadPkgsOptions = {
   cwd?: string,
@@ -38,18 +38,18 @@ export default function readPkgs(
       new Error('"options.normalize" must be a boolean or undefined.'),
     );
   }
+
   return getStream.array(
     fastGlob
-      .stream(patterns, {
-        cwd,
-        onlyDirectories: true,
-        onlyFiles: false,
-      })
+      .stream(patterns, {cwd, onlyDirectories: true, onlyFiles: false})
       .pipe(
-        through.obj((directory, enc, callback) => {
-          readPkg(path.resolve(cwd, directory), {normalize}).then(pkg =>
-            callback(null, {directory, pkg}),
-          );
+        new Transform({
+          objectMode: true,
+          transform(directory, encoding, callback) {
+            readPkg(path.resolve(cwd, directory), {normalize}).then(pkg =>
+              callback(null, {directory, pkg}),
+            );
+          },
         }),
       ),
   );
