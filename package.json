@@ -29,7 +29,7 @@
     "eslint-plugin-flowtype": "^3.0.0",
     "eslint-plugin-import": "^2.9.0",
     "flow-bin": "^0.96.0",
-    "husky": "^1.0.0",
+    "husky": "^2.0.0",
     "jest": "^23.0.0",
     "lint-staged": "^8.0.0",
     "normalize-package-data": "^2.4.0",
